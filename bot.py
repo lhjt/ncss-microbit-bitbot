@@ -7,6 +7,7 @@ class Direction():
 class Speed():
     MAX = 1023
     STOP = 0
+    RIGHT_FORWARD = 1020
 
 class Wheel:
     def __init__(self, wheel_pin, direction_pin) -> None:
@@ -35,10 +36,27 @@ class Wheel:
         """
         self.direction_pin.write_digital(direction.value)
 
+    def stop(self):
+        """
+        Stops the wheel.
+        """
+        self.set_speed(Speed.STOP)
+
+class BitBot:
+    def __init__(self, left_wheel, right_wheel) -> None:
+        self.left_wheel = left_wheel
+        self.right_wheel = right_wheel
+        
+    def drive_forward(self, speed):
+        """
+        Drive the bot forwards at a certain speed.
+        """
+        
+
 left_wheel = Wheel(pin0, pin8)
 right_wheel = Wheel(pin1, pin12)
 
 left_wheel.set_speed(Speed.MAX)
-right_wheel.set_speed(Speed.MAX)
+right_wheel.set_speed(1020)
 
 
