@@ -8,6 +8,8 @@ class Speed():
     MAX = 1023
     STOP = 0
     RIGHT_FORWARD = 1020
+    TURN_90_AT_MAX = 450
+    TURN_180_AT_MAX = TURN_90_AT_MAX * 2 - 50
 
 class Wheel:
     def __init__(self, wheel_pin, direction_pin) -> None:
@@ -53,10 +55,8 @@ class BitBot:
         """
         
 
+sleep(500)
+
 left_wheel = Wheel(pin0, pin8)
 right_wheel = Wheel(pin1, pin12)
-
-left_wheel.set_speed(Speed.MAX)
-right_wheel.set_speed(1020)
-
 
