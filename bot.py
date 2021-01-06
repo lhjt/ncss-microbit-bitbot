@@ -45,6 +45,25 @@ class Wheel:
         """
         self.set_speed(Speed.STOP)
 
+class LightSensor:
+    def __init__(self, pin_sensor, pin_selector) -> None:
+        self.pin_sensor = pin_sensor
+        self.pin_selector = pin_selector
+
+    def get_left_value(self):
+        """
+        Gets the current value of the light sensor.
+        """
+        self.pin_selector.write_digital(0)
+        return self.pin_sensor.read_analog()
+
+    def get_right_value(self):
+        """
+        Gets the current value of the light sensor.
+        """
+        self.pin_selector.write_digital(1)
+        return self.pin_sensor.read_analog()
+
 class BitBot:
     def __init__(self, left_wheel, right_wheel) -> None:
         self.left_wheel = left_wheel
@@ -102,14 +121,6 @@ sleep(500)
 left_wheel = Wheel(pin0, pin8)
 right_wheel = Wheel(pin1, pin12)
 
+
+light_sensor = LightSensor(pin2, pin16)
 bot = BitBot(left_wheel, right_wheel)
-
-# # Drive Forward
-# bot.drive_forward_max()
-# sleep(2000)
-
-# bot.turn_360()
-# sleep(50)
-
-# bot.drive_forward_max()
-# sleep(2000)
