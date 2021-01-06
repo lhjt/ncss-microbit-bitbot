@@ -7,7 +7,7 @@ class Direction():
 class Speed():
     MAX = 1023
     STOP = 0
-    RIGHT_FORWARD = 1020
+    RIGHT_MAX = 1020
     TURN_90_AT_MAX = 450
     TURN_180_AT_MAX = TURN_90_AT_MAX * 2 - 50
 
@@ -36,7 +36,8 @@ class Wheel:
         """
         Set the direction of the wheel.
         """
-        self.direction_pin.write_digital(direction.value)
+        self.direction = direction
+        self.direction_pin.write_digital(direction)
 
     def stop(self):
         """
@@ -49,14 +50,66 @@ class BitBot:
         self.left_wheel = left_wheel
         self.right_wheel = right_wheel
         
-    def drive_forward(self, speed):
+    def drive_forward_max(self):
         """
-        Drive the bot forwards at a certain speed.
+        Drive the bot forwards at the maximum speed.
         """
-        
+        self.left_wheel.set_speed(Speed.MAX)
+        self.right_wheel.set_speed(Speed.RIGHT_MAX)
+
+    def drive_at(self, left_speed, right_speed):
+        """
+        Drive the bot in the current direction at a specific speed.
+        """
+        self.left_wheel.set_speed(left_speed)
+        self.right_wheel.set_speed(right_speed)
+
+    def set_direction(self, direction):
+        """
+        Set the direction that the bot will travel in.
+        """
+        self.right_wheel.set_direction(direction)
+        self.left_wheel.set_direction(direction)
+
+    def turn_360(self):
+        """
+        Turn the bot 360 degrees.
+        """
+        self.right_wheel.stop()
+        self.left_wheel.stop()
+
+        self.right_wheel.set_direction(Direction.BACKWARDS)
+
+        self.right_wheel.set_speed(Speed.RIGHT_MAX)
+        self.left_wheel.set_speed(Speed.MAX)
+        sleep(850)
+
+        self.left_wheel.stop()
+        self.right_wheel.stop()
+
+        self.right_wheel.set_direction(Direction.FORWARD)
+
+    def stop(self):
+        """
+        Stops the bot.
+        """
+        self.left_wheel.stop()
+        self.right_wheel.stop()
+
 
 sleep(500)
 
 left_wheel = Wheel(pin0, pin8)
 right_wheel = Wheel(pin1, pin12)
 
+bot = BitBot(left_wheel, right_wheel)
+
+# # Drive Forward
+# bot.drive_forward_max()
+# sleep(2000)
+
+# bot.turn_360()
+# sleep(50)
+
+# bot.drive_forward_max()
+# sleep(2000)
